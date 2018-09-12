@@ -219,6 +219,7 @@ function readCookie(name)   {
 
 
 # 常用107条js语法
+```
 1.document.write( " "); 输出语句 
 2.JS中的注释为// 
 3.传统的HTML文档顺序是:document- >html- >(head,body) 
@@ -340,4 +341,6 @@ var form = window.document.forms[0]
 105.parseFloat(string[,radix])强制转换成浮点型. 
 106.isNaN(变量):测试是否为数值型. 
 107.定义常量:const,定义变量的:var
+
+```
 

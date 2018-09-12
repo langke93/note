@@ -91,7 +91,7 @@ jstl是一组标准的已定制好的操作，它们应用于各种功能领域�
   jstl中最有用的特性就是循环操作了，jstl中支持循环操作的tag是   <c:forEach>,   <c:forToken>,   和   <x:forEach>,还有一些模仿了核心tag用于XML操作的tags，我们稍后介绍，先来看看这些核心tag中的循环操作.     
     
   这些操作支持所有的标准的J2SE的集合类型，包括   List,   LinkedList,   ArrayList,   Vector,   Stack,   和   Set。还包括java.util.Map类的对象比如HashMap,   Hashtable,   Properties,   Provider,   和   Attributes。当然还可以循环遍历对象或基本类型的数组。当使用基本类型时注意，在数组中的项目是它们相应的包装类，比如一个int数组中的元素是Integer，每次循环输入两个对象：当前的元素和循环状态，让我们来看看下面这个例子：     
-    
+```html
   <table>     
   <c:forEach   var="product"     
   items="${products}"     
@@ -102,7 +102,7 @@ jstl是一组标准的已定制好的操作，它们应用于各种功能领域�
   </tr>     
   </c:forEach>     
   </table>     
-    
+```
   从这个例子我们可以看出，EL把products变量作为集合，每一次输出的当前项设为product，当前状态设为status。     
 
 <c:forEach>,   标签具有以下一些属性： 
@@ -215,12 +215,13 @@ jstl是一组标准的已定制好的操作，它们应用于各种功能领域�
   SQL操作支持直接访问数据源。在MVC模式中这种做法是会受到警告的，我个人也反对在产品中使用这样的tag，不过对一些快速、小型、简单的开发，他还是会有一些作用，不过不要把它应用到大型应用系统中去。我们来看看SQL操作提供了一些什么功能     
     
   可以使用这些tag来设定数据源、查询数据库、很容易的访问查询结果并可以事务性的更新数据。看下面这个例子如何设定数据源：     
-    
+ 
   <sql:setDataSource   var="datasource"   driver="org.gjt.mm.MySQL.driver"   url="JDBC:mysql://localhost/db"   />     
-    
+     
   <sql:setDataSource>仅仅是封装了JDBC   DriverManager的功能。datasource的属性可以是String或JNDI的相对路径或JDBC   参数串.然后在查询中我们可以这样使用datasource：<sql:query   datasource="${datasource}"   ...   />     
     
   我们来看一个综合使用的例子：     
+```
   <sql:query   var="customer"   datasource="${datasource}"     
   SELECT   *   FROM   customers   WHERE   state   =   'CO'   ORDER   BY   city     
   </sql:query>     
@@ -232,9 +233,9 @@ jstl是一组标准的已定制好的操作，它们应用于各种功能领域�
   </tr>     
   </c:forEach>     
   </table>     
-    
+```
   使用事务性的更新现在很简单了，比如我们现在定义一个事务，你可以把所有需要的更新操作包括在内：     
-    
+```html
   <sql:transaction   dataSource="${dataSource}">     
   <sql:update>     
   UPDATE   account   SET   Balance   =Balance   -?   WHERE   accountNo   =   ?     
@@ -242,45 +243,32 @@ jstl是一组标准的已定制好的操作，它们应用于各种功能领域�
   <sql:param   value="${accountFrom}"/>     
   </sql:update>     
   </sql:transaction>     
-    
+```
   <sql:dateParam>   tag   可以设定在   SQL语句中java.util.Date类型的   "?"(   parameter   markers).在这个例子中没有展示事务级的设定,事务级在java.sql.Connection中设定,如果没有设定事务级,然后在tag中使用它，就会抛出JspTagException.     
     
   XML操作     
   最后我们来看看XML操作，XML操作集是在核心、流程控制、转向操作外的一个操作集，它是建立在Xpath上的。使用Xpath表达式。     
     
   XML   的核心操作很像jstl中核心操作,包括<x:out>,   <x:set>,   和<x:parse>，不同是这些操作tag支持的是XPath表达式的。<x:parse>用来把XML文档解析成数据，数据由XPath引擎处理,如果我们有一个描述一本书的XML文件，我们可以解析它，并使用XPath表达式显示它     
-    
+```html
   <c:import   url="http://oreilly.com/book?id=1234"   var="xml"/>     
   <x:parse   source="${xml}"   var="bookInfo"/>     
   <x:out   select="$bookInfo/title"/>     
   <x:out   select="$bookInfo/author"/>     
-    
+```
   XML的流程控制也类似于核心集，包括了：if,   choose,   when,   otherwise,   和   forEach   tag，不同的是他们使用XPath表达式.结果对象会按XPath的语义定义转化成相应的boolean值，这些语义规定是：     
-    
-    
-    
-    
   当且仅当一个数是非零正数或非NaN（无穷大）时为true     
-    
   当且仅当一个节点不为空时，值为true     
-    
   当且仅当一个字串的长度不为零时该子串为true     
-    
-    
-    
   XML的转换操作是把XML文档用XSL样式文件显示，但不能获得这些结果，把它们存储在某个变量或值域的属性中，这样的操作只是引入XML和   XSL   文件并完成转换     
-    
+```
   <c:import   url="/books"   var="xml"/>     
   <c:import   url="/Web-INF/xslt/bookDisplay.xsl"   var="xslt"/>     
   <x:transform   source="${xml}"   xslt="${xslt}"/>     
-    
-  如果要设定一些转换的参数，可以使用<x:param>来指明参数名和值 
+```
 
-empty 空值判断
-
+  如果要设定一些转换的参数，可以使用<x:param>来指明参数名和值empty 空值判断
  <c:if test="${empty type_div}">${type_div}</c:if>
-
-
  
 **jstl c:choose**
 * 空属性判断
@@ -307,12 +295,13 @@ empty 空值判断
 	                </c:otherwise>
                 </c:choose>
                 
-                ```
-jstl c:if
+```
+                
+**jstl c:if**
 * 表达式计算
 * 数值格式化
-```
 
-                         <c:if test="${appItem.sumTranTime / appItem.totalCount  >= 500}">class='td-value red-color'  </c:if>>
-                        <fmt:formatNumber type="number" value="${appItem.sumTranTime / appItem.totalCount}" pattern="##.##" maxFractionDigits="2"/>
+```
+    <c:if test="${appItem.sumTranTime / appItem.totalCount  >= 500}">class='td-value red-color'  </c:if>>
+     <fmt:formatNumber type="number" value="${appItem.sumTranTime / appItem.totalCount}" pattern="##.##" maxFractionDigits="2"/>
 ```
