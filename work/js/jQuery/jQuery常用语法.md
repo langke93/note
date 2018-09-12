@@ -1,6 +1,7 @@
-**jQuery 效果**
+**jQuery 效果**  
+
 | 函数  | 描述  |  
-| ---  | ---  |
+| ---  | ---  |  
 | $(selector).hide()  | 隐藏被选元素  |  
 | $(selector).show()  | 显示被选元素  |  
 | $(selector).toggle() | 切换（在隐藏与显示之间）被选元素  |  
